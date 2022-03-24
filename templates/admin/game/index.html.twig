@@ -29,4 +29,37 @@
                 
         </tbody>
     </table>
+{#    <h1>Liste des Joueur</h1>#}
+{#    <table class="table table-bordered">#}
+{#        <thead class="thead-dark">#}
+{#        <tr>#}
+{#            <th>ID</th>#}
+{#            <th>pseudo</th>#}
+{#            <th>email</th>#}
+{#            <th>voir le joueur</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for player in players %}#}
+{#            <tr>#}
+{#                <td>{{ player.id }}</td>#}
+{#                <td>{{ player.nickname }}</td>#}
+{#                <td>{{ player.email }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('show', { id: player.id }) }}">#}
+{#                        <button class="btn btn-primary">Voir le joueur</button>#}
+{#                    </a>#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td clospan="4">Aucun jeu n'est enregistré</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+
+{#        </tbody>#}
+{#    </table>#}
+{#    {% if player %}#}
+{#    <h2>detail du joueur: Pseudo : {{ player.nickname }}, Email : {{  player.email }}</h2>#}
+{#    {% endif %}#}
 {% endblock %}
