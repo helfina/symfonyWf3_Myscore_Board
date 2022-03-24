@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <table class="table">
+        <tr>
+            <td>{{ tableau[0] }}</td>
+        </tr>
+        <tr>
+            <td>{{ tableau[1] }}</td>
+        </tr>
+        <tr>
+            <td>{{ tableau[2] }}</td>
+        </tr>
+        <tr>
+            <td>{{ tableau[3] }}</td>
+        </tr>
+    </table>
+    {#  BOUCLE : balise for
+    {%  for variable in debut ... fin %}
+        {% enfor %}
+        
+    #}
+    {%  for i in 0 ... 3 %}
+    <tr>
+        <td>{{ tableau[i] }}</td>
+    </tr>
+    {% enfor %}
+{% endblock %}
