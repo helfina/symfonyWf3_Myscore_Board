@@ -17,11 +17,37 @@
     {#  BOUCLE : balise for
     {%  for variable in debut ... fin %}
         {% enfor %}
-        
+
+        La variable va passer de la vaeur 'debut'
+ et la  valeur 'fin'  et etre incrementer de 1 a chaque tour
     #}
-    {%  for i in 0 ... 3 %}
-    <tr>
-        <td>{{ tableau[i] }}</td>
-    </tr>
-    {% enfor %}
+
+    <table class="table table-striped">
+    {%  for i in 0 .. tableau|length -1 %}
+        <tr>
+            <td>{{ tableau[i] }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    {% for car in 'a' .. 'z' %}
+        {{ car }}
+    {% endfor %}
+
+{# Equivalent de la boucle php FOREACH #}
+    <table class="table table-borderd">
+    {%for valeur in tableau  %}
+        <tr>
+            <td>{{ valeur }}</td>
+        </tr>
+
+    {% endfor %}
+    </table>
+
+    {# foreach($tableau as $indice => $valeur) #}
+    {% for indice, valeur in tableau %}
+        <p>{{ indice }} : {{ tableau }} </p>
+        <p>{{ indice }} : {{ tableau[indice] }} </p>
+    {% endfor %}
+
 {% endblock %}

@@ -55,4 +55,20 @@ class TestController extends AbstractController
             "tableau" => $array
         ]);
     }
+
+    /**
+     * @route("/test/assoc")
+     */
+    #[Route('/test/assoc')]
+    public function tab(){
+
+        $p = [
+            "nom" => "Kerforne",
+            "prenom" => "Gaelle",
+            "age" => 32
+            ];
+        return $this->render("test/assoc.html.twig", ["personne" => $p ]);
+    }
+
+
 }

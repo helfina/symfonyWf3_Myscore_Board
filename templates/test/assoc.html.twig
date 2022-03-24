@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+{% block body %}
+{#    <h2>Je m'appelle : {{ personne['prenom'] }}  {{ persone['nom'] }}</h2>#}
+    {# l'operateur de concatenation est ~
+        Le point . sert a acceder aux indices d'un tableau ou au propriéter d'un objet
+    #}
+    <h2>Je m'appelle : {{ personne.prenom }} ~ " " ~ {{ personne.nom }} et j'ai {{ personne.age }}</h2>
+{% endblock %}
