@@ -5,8 +5,15 @@ namespace App\Controller\Admin;
 use App\Repository\PlayerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\GameRepository;
+use App\Entity\Game;
+use App\Form\GameType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
 
 class GameController extends AbstractController
 {
@@ -65,4 +72,55 @@ class GameController extends AbstractController
 //            "player"=>$player
 //        ]);
 //    }
+
+    /**
+     * @Route("/admin/game/new", name="app_admin_game_new")
+     *
+     * La classe Request permet d'instancier un objet qui contient
+     * toutes les valeurs des variables super-globales de PHP.
+     * Ces valeurs sont dans des propriétés (qui sont des objets).
+     *  $request->query      contient        $_GET
+     *  $request->request    contient        $_POST
+     *  $request->server     contient        $SERVER
+     * ...
+     *  Pour accéder aux valeurs, on utilisera sur ces propriétés la
+     *  méthode ->get('indice')
+     *
+     * La classe EntityMangager va permettre d'exécuter les requêtes
+     *  qui modifient les données (INSERT, UPDATE, DELETE).
+     *  L'EntityManager va toujours utiliser des objets Entity pour
+     *  modifier les données.
+     */
+    public function new(Request $request, EntityManagerInterface $em)
+    {
+        $jeu = new Game;
+        /* On crée un objet $form pour gérer le formulaire. Il est créé
+            à partir de la classe GameType. On relie ce formulaire à
+            l'objet $jeu */
+        $form = $this->createForm(GameType::class, $jeu);
+
+        /* L'objet $form va gérer ce qui vient de la requête HTTP
+            (avec l'objet $request) */
+        $form->handleRequest($request);
+
+        if( $form->isSubmitted() && $form->isValid() ){
+            // la méthode persist() prépare la requête INSERT avec les données de l'objet passé en argument
+            $em->persist($jeu);
+
+            // la méthode flush() exécute les requêtes en attente et donc modifie la base de données
+            $em->flush();
+            //redirection vers une route du projet
+            return $this->redirectToRoute("app_admin_game");
+        }
+
+        return $this->render("admin/game/form.html.twig", [
+            "formGame" => $form->createView()
+        ]);
+    }
+    /**
+     * @Route("/admin/game/edit/{id}", name="app_admin_game_edit")
+     */
+    public function edit($id){
+        dd($id);
+    }
 }
