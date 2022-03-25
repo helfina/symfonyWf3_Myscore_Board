@@ -11,6 +11,7 @@
             <th>Titre</th>
             <th>Joueur min</th>
             <th>Joueur Max</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -20,10 +21,14 @@
                 <td>{{ game.title }}</td>
                 <td>{{ game.minPlayers }}</td>
                 <td>{{ game.maxPlayers }}</td>
+                <td>
+                    <a class="badge badge-warning" href="{{ path('app_admin_game_edit', {id: game.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a class="badge badge-danger" href="{{ path('app_admin_game_delete', {id: game.id}) }}"><i class="fa fa-trash"></i></a>
+                </td>
             </tr>
             {% else %}
                 <tr>
-                    <td clospan="4">Aucun jeu n'est enregistré</td>
+                    <td colspan="4">Aucun jeu n'est enregistré</td>
                 </tr>
         {% endfor %}
                 

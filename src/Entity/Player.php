@@ -34,9 +34,15 @@ class Player
      */
     private $winner_contests;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Contest::class, mappedBy="players")
+     */
+    private $contests;
+
     public function __construct()
     {
         $this->winner_contests = new ArrayCollection();
+        $this->contests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +99,33 @@ class Player
             if ($winnerContest->getWinner() === $this) {
                 $winnerContest->setWinner(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contest>
+     */
+    public function getContests(): Collection
+    {
+        return $this->contests;
+    }
+
+    public function addContest(Contest $contest): self
+    {
+        if (!$this->contests->contains($contest)) {
+            $this->contests[] = $contest;
+            $contest->addPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContest(Contest $contest): self
+    {
+        if ($this->contests->removeElement($contest)) {
+            $contest->removePlayer($this);
         }
 
         return $this;

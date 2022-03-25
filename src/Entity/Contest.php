@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ContestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class Contest
      * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="winner_contests")
      */
     private $winner;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Player::class, inversedBy="contests")
+     */
+    private $players;
+
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,6 +82,30 @@ class Contest
     public function setWinner(?Player $winner): self
     {
         $this->winner = $winner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Player>
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        $this->players->removeElement($player);
 
         return $this;
     }

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Suppression d'un jeux {% endblock %}
+{% block body %}
+
+    <h2>Confirmation de suppression de jeu suivant : </h2>
+    <ul class="list-group">
+        <li class="list-group-item">Titre : {{ game.title }}</li>
+        <li class="list-group-item">Entre : {{ game.minPlayers }} et {{ game.maxPlayers }} joueurs</li>
+    </ul>
+    <form action="" method="post">
+        <button type="submit">Confirmer</button>
+        <a href="{{ path('app_admin_game') }}" class="btn-btn-danger">Annuler</a>
+    </form>
+
+{% endblock %}

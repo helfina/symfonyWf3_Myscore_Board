@@ -14,7 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-
 class GameController extends AbstractController
 {
     /**
@@ -22,7 +21,6 @@ class GameController extends AbstractController
      */
     public function index(GameRepository $gameRepository, PlayerRepository $playerRepository): Response
     {
-
 
         /* On ne PEUT PAS instancier d'objets d'une classe Repository
             on doit les passer dans les arguments d'une méthode d'un contrôleur
@@ -103,7 +101,7 @@ class GameController extends AbstractController
             (avec l'objet $request) */
         $form->handleRequest($request);
 
-        if( $form->isSubmitted() && $form->isValid() ){
+        if ($form->isSubmitted() && $form->isValid()) {
             // la méthode persist() prépare la requête INSERT avec les données de l'objet passé en argument
             $em->persist($jeu);
 
@@ -117,10 +115,47 @@ class GameController extends AbstractController
             "formGame" => $form->createView()
         ]);
     }
+
     /**
      * @Route("/admin/game/edit/{id}", name="app_admin_game_edit")
      */
-    public function edit($id){
-        dd($id);
+    public function edit(Request $rq,EntityManagerInterface $em, GameRepository $gameRepository, $id)
+    {
+        //dd($id);
+        $jeu = $gameRepository->find($id);
+        $form = $this->createForm(GameType::class, $jeu);
+        $form->handleRequest($rq);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute("app_admin_game");
+        }
+        return $this->render("admin/game/form.html.twig", ["formGame" => $form->createView()]);
     }
+
+    /**
+     * @Route("/admin/game/delete/{id}", name="app_admin_game_delete")
+     *
+     *
+     * EXO
+     *  1. Créer une route app_admin_game_delete, qui prend l'id comme paramètre
+     *  2. afficher les informations du jeu à supprimer avec une nouvelle vue
+     *         Confirmation de suppression du jeu suivant :
+     *             - Titre
+     *             - Entre nb_min et nb_max joueurs
+     *
+     */
+    public function delete($id, GameRepository $gr, Request $rq, EntityManagerInterface  $em)
+    {
+        //dd($id);
+        $jeu = $gr->find($id);
+        if($rq->isMethod("POST")){
+            $em->remove($jeu);
+            $em->flush();
+            return $this->redirectToRoute("app_admin_game");
+        }
+        return $this->render("admin/game/delete.html.twig", ["game" => $jeu]);
+
+    }
+
+
 }
